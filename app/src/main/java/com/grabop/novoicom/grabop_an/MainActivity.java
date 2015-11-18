@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onFragmentInteraction(Uri uri) {
-        
+
     }
 
     static class Adapter extends FragmentPagerAdapter {
