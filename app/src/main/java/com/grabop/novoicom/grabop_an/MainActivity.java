@@ -101,6 +101,44 @@ public class MainActivity extends AppCompatActivity
             return true;
         }
 
+        switch (item.getItemId()) {
+            case R.id.action_search:
+                // get the icon's location on screen to pass through to the search screen
+//                Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//                View searchMenuView = toolbar.findViewById(R.id.menu_search);
+//                int[] loc = new int[2];
+//                searchMenuView.getLocationOnScreen(loc);
+//                startActivityForResult(SearchActivity.createStartIntent(this, loc[0], loc[0] +
+//                        (searchMenuView.getWidth() / 2)), RC_SEARCH, ActivityOptions
+//                        .makeSceneTransitionAnimation(this).toBundle());
+//                searchMenuView.setAlpha(0f);
+                return true;
+//            case R.id.menu_dribbble_login:
+//                if (!dribbblePrefs.isLoggedIn()) {
+//                    dribbblePrefs.login(HomeActivity.this);
+//                } else {
+//                    dribbblePrefs.logout();
+//                    // TODO something better than a toast!!
+//                    Toast.makeText(getApplicationContext(), R.string.dribbble_logged_out, Toast
+//                            .LENGTH_SHORT).show();
+//                }
+//                return true;
+//            case R.id.menu_designer_news_login:
+//                if (!designerNewsPrefs.isLoggedIn()) {
+//                    startActivity(new Intent(this, DesignerNewsLogin.class));
+//                } else {
+//                    designerNewsPrefs.logout();
+//                    // TODO something better than a toast!!
+//                    Toast.makeText(getApplicationContext(), R.string.designer_news_logged_out,
+//                            Toast.LENGTH_SHORT).show();
+//                }
+//                return true;
+            case R.id.action_settings:
+//                startActivity(new Intent(HomeActivity.this, AboutActivity.class),
+//                        ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+                return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
