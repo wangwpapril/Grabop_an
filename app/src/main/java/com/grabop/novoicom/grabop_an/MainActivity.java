@@ -4,9 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -22,13 +20,26 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
+import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
+import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, BlankFragment.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, BlankFragment.OnFragmentInteractionListener, View.OnClickListener {
+
+    //tag associated with the FAB menu button that sorts by name
+    private static final String TAG_SORT_NAME = "sortName";
+    //tag associated with the FAB menu button that sorts by date
+    private static final String TAG_SORT_DATE = "sortDate";
+    //tag associated with the FAB menu button that sorts by ratings
+    private static final String TAG_SORT_RATINGS = "sortRatings";
+
+    private FloatingActionButton mFAB;
+    private FloatingActionMenu mFABMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,14 +48,16 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
+
+        setupFAB();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -69,6 +82,12 @@ public class MainActivity extends AppCompatActivity
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
+
+        int icons[] = {R.drawable.ic_action_search,
+                R.drawable.ic_action_trending,
+                R.drawable.ic_action_upcoming};
+
+        tabLayout.getTabAt(0).setIcon(icons[0]);
 
     }
 
@@ -173,10 +192,57 @@ public class MainActivity extends AppCompatActivity
 
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
-        adapter.addFragment(BlankFragment.newInstance("", ""), "Category 1");
-        adapter.addFragment(BlankFragment.newInstance("", ""), "Category 2");
-        adapter.addFragment(BlankFragment.newInstance("", ""), "Category 3");
+        adapter.addFragment(BlankFragment.newInstance("", ""), "People Nearby");
+        adapter.addFragment(BlankFragment.newInstance("", ""), "My Profile");
+        adapter.addFragment(BlankFragment.newInstance("", ""), "My Connection");
         viewPager.setAdapter(adapter);
+    }
+
+    private void setupFAB() {
+        //define the icon for the main floating action button
+        ImageView iconFAB = new ImageView(this);
+        iconFAB.setImageResource(R.drawable.ic_action_new);
+
+        //set the appropriate background for the main floating action button along with its icon
+        mFAB = new FloatingActionButton.Builder(this)
+                .setContentView(iconFAB)
+                .setBackgroundDrawable(R.drawable.selector_button_red)
+                .build();
+
+        //define the icons for the sub action buttons
+        ImageView iconSortName = new ImageView(this);
+        iconSortName.setImageResource(R.drawable.ic_action_alphabets);
+        ImageView iconSortDate = new ImageView(this);
+        iconSortDate.setImageResource(R.drawable.ic_action_calendar);
+        ImageView iconSortRatings = new ImageView(this);
+        iconSortRatings.setImageResource(R.drawable.ic_action_important);
+
+        //set the background for all the sub buttons
+        SubActionButton.Builder itemBuilder = new SubActionButton.Builder(this);
+        itemBuilder.setBackgroundDrawable(getResources().getDrawable(R.drawable.selector_sub_button_gray));
+
+
+        //build the sub buttons
+        SubActionButton buttonSortName = itemBuilder.setContentView(iconSortName).build();
+        SubActionButton buttonSortDate = itemBuilder.setContentView(iconSortDate).build();
+        SubActionButton buttonSortRatings = itemBuilder.setContentView(iconSortRatings).build();
+
+        //to determine which button was clicked, set Tags on each button
+        buttonSortName.setTag(TAG_SORT_NAME);
+        buttonSortDate.setTag(TAG_SORT_DATE);
+        buttonSortRatings.setTag(TAG_SORT_RATINGS);
+
+        buttonSortName.setOnClickListener(this);
+        buttonSortDate.setOnClickListener(this);
+        buttonSortRatings.setOnClickListener(this);
+
+        //add the sub buttons to the main floating action button
+        mFABMenu = new FloatingActionMenu.Builder(this)
+                .addSubActionView(buttonSortName)
+                .addSubActionView(buttonSortDate)
+                .addSubActionView(buttonSortRatings)
+                .attachTo(mFAB)
+                .build();
     }
 
     @Override
@@ -184,7 +250,21 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    static class Adapter extends FragmentPagerAdapter {
+    @Override
+    public void onClick(View v) {
+        if (v.getTag().equals(TAG_SORT_NAME)) {
+            //call the sort by name method on any Fragment that implements sortlistener
+        }
+        if (v.getTag().equals(TAG_SORT_DATE)) {
+            //call the sort by date method on any Fragment that implements sortlistener
+        }
+        if (v.getTag().equals(TAG_SORT_RATINGS)) {
+            //call the sort by ratings method on any Fragment that implements sortlistener
+        }
+
+    }
+
+    class Adapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragments = new ArrayList<>();
         private final List<String> mFragmentTitles = new ArrayList<>();
 
@@ -211,6 +291,11 @@ public class MainActivity extends AppCompatActivity
         public CharSequence getPageTitle(int position) {
             return mFragmentTitles.get(position);
         }
+
+//        private Drawable getIcon(int position) {
+//            return getResources().getDrawable(icons[position]);
+//        }
+
     }
 
 }
