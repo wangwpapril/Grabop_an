@@ -70,10 +70,21 @@ public class MainActivity extends AppCompatActivity
 
         CollapsingToolbarLayout collapsingToolbar =
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        collapsingToolbar.setTitle("Main");
+        collapsingToolbar.setTitle(" ");
 
-        final ImageView imageView = (ImageView) findViewById(R.id.backdrop);
-        Picasso.with(this).load(R.drawable.cheese_1).into(imageView);
+        final ImageView imageView = (ImageView) findViewById(R.id.ivUserProfilePhoto);
+        int avatarSize = getResources().getDimensionPixelSize(R.dimen.user_profile_avatar_size);
+//        this.profilePhoto = getString(R.string.user_profile_photo);
+
+        Picasso.with(this)
+                .load(R.drawable.cheese_1)
+                .placeholder(R.drawable.img_circle_placeholder)
+                .resize(avatarSize, avatarSize)
+                .centerCrop()
+                .transform(new CircleTransformation())
+                .into(imageView);
+
+//        Picasso.with(this).load(R.drawable.cheese_1).into(imageView);
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         if (viewPager != null) {
@@ -83,11 +94,14 @@ public class MainActivity extends AppCompatActivity
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
-        int icons[] = {R.drawable.ic_action_search,
-                R.drawable.ic_action_trending,
-                R.drawable.ic_action_upcoming};
+        int icons[] = {R.drawable.ic_place_white,
+                R.drawable.ic_label_white,
+                R.drawable.ic_list_white};
 
         tabLayout.getTabAt(0).setIcon(icons[0]);
+        tabLayout.getTabAt(1).setIcon(icons[1]);
+        tabLayout.getTabAt(2).setIcon(icons[2]);
+        tabLayout.setBackgroundColor(getResources().getColor(R.color.style_color_accent));
 
     }
 
