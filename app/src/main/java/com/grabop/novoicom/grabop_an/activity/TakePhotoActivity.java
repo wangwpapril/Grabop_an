@@ -65,6 +65,8 @@ public class TakePhotoActivity extends BaseActivity implements RevealBackgroundV
 
     private File photoPath;
 
+    private TakePhotoActivity activity;
+
     public static void startCameraFromLocation(int[] startingLocation, Activity startingActivity) {
         Intent intent = new Intent(startingActivity, TakePhotoActivity.class);
         intent.putExtra(ARG_REVEAL_START_LOCATION, startingLocation);
@@ -97,7 +99,7 @@ public class TakePhotoActivity extends BaseActivity implements RevealBackgroundV
         findViewById(R.id.btnAccept).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PublishActivity.openWithPhotoUri(getParent(), Uri.fromFile(photoPath));
+                PublishActivity.openWithPhotoUri(activity, Uri.fromFile(photoPath));
 
             }
         });

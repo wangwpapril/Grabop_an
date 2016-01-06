@@ -37,10 +37,14 @@ public class MainActivity extends BaseDrawerActivity implements FeedAdapter.OnFe
 
     private boolean pendingIntroAnimation;
 
+    private MainActivity activity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        activity = this;
 
         rvFeed = (RecyclerView) findViewById(R.id.rvFeed);
         fabCreate = (FloatingActionButton) findViewById(R.id.btnCreate);
@@ -50,7 +54,7 @@ public class MainActivity extends BaseDrawerActivity implements FeedAdapter.OnFe
                 int[] startingLocation = new int[2];
                 fabCreate.getLocationOnScreen(startingLocation);
                 startingLocation[0] += fabCreate.getWidth() / 2;
-                TakePhotoActivity.startCameraFromLocation(startingLocation, getParent());
+                TakePhotoActivity.startCameraFromLocation(startingLocation, activity);
                 overridePendingTransition(0, 0);
 
             }
