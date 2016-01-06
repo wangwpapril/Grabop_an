@@ -28,7 +28,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity1 extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, BlankFragment.OnFragmentInteractionListener, View.OnClickListener {
 
     //tag associated with the FAB menu button that sorts by name
@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main1);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
