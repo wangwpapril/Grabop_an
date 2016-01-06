@@ -26,8 +26,6 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     public void setContentView(int layoutResID) {
         super.setContentView(layoutResID);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        ivLogo = (ImageView) findViewById(R.id.ivLogo);
         bindViews();
     }
 
@@ -38,6 +36,7 @@ public class BaseActivity extends AppCompatActivity {
 
     public void setContentViewWithoutInject(int layoutResId) {
         super.setContentView(layoutResId);
+
     }
 
     protected void setupToolbar() {
