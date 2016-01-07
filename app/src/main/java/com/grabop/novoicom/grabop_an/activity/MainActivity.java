@@ -11,6 +11,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
 
@@ -214,4 +215,13 @@ public class MainActivity extends BaseDrawerActivity implements FeedAdapter.OnFe
     public void showLikedSnackbar() {
         Snackbar.make(clContent, "Liked!", Snackbar.LENGTH_SHORT).show();
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        return super.onOptionsItemSelected(item);
+
+    }
+
 }

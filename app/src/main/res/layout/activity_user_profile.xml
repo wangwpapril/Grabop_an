@@ -196,7 +196,7 @@
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:scaleType="center"
-                        android:src="@drawable/img_toolbar_logo" />
+                        android:src="@drawable/grabop_logo" />
                 </android.support.v7.widget.Toolbar>
 
             </android.support.design.widget.CollapsingToolbarLayout>
@@ -218,6 +218,12 @@
             </FrameLayout>
 
         </android.support.design.widget.AppBarLayout>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/btnCreate"
