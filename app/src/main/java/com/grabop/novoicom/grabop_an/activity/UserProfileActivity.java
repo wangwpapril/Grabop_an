@@ -23,6 +23,9 @@ import com.grabop.novoicom.grabop_an.R;
 import com.grabop.novoicom.grabop_an.adapter.UserProfileAdapter;
 import com.grabop.novoicom.grabop_an.utils.CircleTransformation;
 import com.grabop.novoicom.grabop_an.view.RevealBackgroundView;
+import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
+import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
+import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -33,7 +36,7 @@ import java.util.List;
  * Created by Miroslaw Stanek on 14.01.15.
  */
 public class UserProfileActivity extends BaseDrawerActivity implements RevealBackgroundView.OnStateChangeListener
-, BlankFragment.OnFragmentInteractionListener{
+, BlankFragment.OnFragmentInteractionListener, View.OnClickListener {
     public static final String ARG_REVEAL_START_LOCATION = "reveal_start_location";
 
     private static final int USER_OPTIONS_ANIMATION_DELAY = 300;
@@ -53,6 +56,17 @@ public class UserProfileActivity extends BaseDrawerActivity implements RevealBac
     private int avatarSize;
     private String profilePhoto;
     private UserProfileAdapter userPhotosAdapter;
+
+    //tag associated with the FAB menu button that sorts by name
+    private static final String TAG_SORT_NAME = "sortName";
+    //tag associated with the FAB menu button that sorts by date
+    private static final String TAG_SORT_DATE = "sortDate";
+    //tag associated with the FAB menu button that sorts by ratings
+    private static final String TAG_SORT_RATINGS = "sortRatings";
+
+    private FloatingActionButton mFAB;
+    private FloatingActionMenu mFABMenu;
+
 
     public static void startUserProfileFromLocation(int[] startingLocation, Activity startingActivity) {
         Intent intent = new Intent(startingActivity, UserProfileActivity.class);
@@ -94,6 +108,7 @@ public class UserProfileActivity extends BaseDrawerActivity implements RevealBac
         setupTabs();
         setupUserProfileGrid();
         setupRevealBackground(savedInstanceState);
+        setupFAB();
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -184,6 +199,20 @@ public class UserProfileActivity extends BaseDrawerActivity implements RevealBac
 
     }
 
+    @Override
+    public void onClick(View v) {
+        if (v.getTag().equals(TAG_SORT_NAME)) {
+            //call the sort by name method on any Fragment that implements sortlistener
+        }
+        if (v.getTag().equals(TAG_SORT_DATE)) {
+            //call the sort by date method on any Fragment that implements sortlistener
+        }
+        if (v.getTag().equals(TAG_SORT_RATINGS)) {
+            //call the sort by ratings method on any Fragment that implements sortlistener
+        }
+
+    }
+
     class Adapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragments = new ArrayList<>();
         private final List<String> mFragmentTitles = new ArrayList<>();
@@ -217,5 +246,53 @@ public class UserProfileActivity extends BaseDrawerActivity implements RevealBac
 //        }
 
     }
+
+    private void setupFAB() {
+        //define the icon for the main floating action button
+        ImageView iconFAB = new ImageView(this);
+        iconFAB.setImageResource(R.drawable.ic_action_new);
+
+        //set the appropriate background for the main floating action button along with its icon
+        mFAB = new FloatingActionButton.Builder(this)
+                .setContentView(iconFAB)
+                .setBackgroundDrawable(R.drawable.selector_button_red)
+                .build();
+
+        //define the icons for the sub action buttons
+        ImageView iconSortName = new ImageView(this);
+        iconSortName.setImageResource(R.drawable.ic_action_alphabets);
+        ImageView iconSortDate = new ImageView(this);
+        iconSortDate.setImageResource(R.drawable.ic_action_calendar);
+        ImageView iconSortRatings = new ImageView(this);
+        iconSortRatings.setImageResource(R.drawable.ic_action_important);
+
+        //set the background for all the sub buttons
+        SubActionButton.Builder itemBuilder = new SubActionButton.Builder(this);
+        itemBuilder.setBackgroundDrawable(getResources().getDrawable(R.drawable.selector_sub_button_gray));
+
+
+        //build the sub buttons
+        SubActionButton buttonSortName = itemBuilder.setContentView(iconSortName).build();
+        SubActionButton buttonSortDate = itemBuilder.setContentView(iconSortDate).build();
+        SubActionButton buttonSortRatings = itemBuilder.setContentView(iconSortRatings).build();
+
+        //to determine which button was clicked, set Tags on each button
+        buttonSortName.setTag(TAG_SORT_NAME);
+        buttonSortDate.setTag(TAG_SORT_DATE);
+        buttonSortRatings.setTag(TAG_SORT_RATINGS);
+
+        buttonSortName.setOnClickListener(this);
+        buttonSortDate.setOnClickListener(this);
+        buttonSortRatings.setOnClickListener(this);
+
+        //add the sub buttons to the main floating action button
+        mFABMenu = new FloatingActionMenu.Builder(this)
+                .addSubActionView(buttonSortName)
+                .addSubActionView(buttonSortDate)
+                .addSubActionView(buttonSortRatings)
+                .attachTo(mFAB)
+                .build();
+    }
+
 
 }
